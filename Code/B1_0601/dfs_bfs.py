@@ -4,11 +4,11 @@ class Node:
         self.children = []
         self.parent = None
 
-    def addChild(self, child):
+    def addChild(self, child: 'Node'):
         self.children.append(child)
         return child
     
-    def addParent(self, nodeParent : Node):
+    def addParent(self, nodeParent : 'Node'):
         self.parent = nodeParent
 
 def bfs(initial : Node, goal : Node):

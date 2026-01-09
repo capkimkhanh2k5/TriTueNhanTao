@@ -84,9 +84,6 @@ def depthFirstSearch(problem):
   print "Start's successors:", problem.getSuccessors(problem.getStartState())
   """
   "*** YOUR CODE HERE ***"
-  #print("Start:", problem.getStartState())
-  #print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
-  #print("Start's successors:", problem.getSuccessors(problem.getStartState()))
   # Succesoers (người kế nhiệm) là danh sách các trạng thái con
 
   # Đưa danh sách trạng thái + List hướng đi hợp lệ vào fringe
@@ -130,6 +127,9 @@ def breadthFirstSearch(problem):
   while not fringe.isEmpty():
     state, actions = fringe.pop()
 
+    if state in graphSearch:
+      continue
+
     graphSearch.add(state)
 
     if(problem.isGoalState(state)):
@@ -140,11 +140,33 @@ def breadthFirstSearch(problem):
         fringe.push((successor, actions + [action]))
     
   #util.raiseNotDefined()
-      
+
 def uniformCostSearch(problem):
   "Search the node of least total cost first. "
   "*** YOUR CODE HERE ***"
-  util.raiseNotDefined()
+
+  #(state, actions, current_cost), cost
+  fringe = util.PriorityQueue()
+  fringe.push((problem.getStartState(), [], 0), 0)
+
+  graphSearch = set()
+
+  while not fringe.isEmpty():
+    state, actions, current_cost = fringe.pop()
+
+    if state in graphSearch:
+      continue
+
+    graphSearch.add(state)
+
+    if problem.isGoalState(state):
+      return actions
+    
+    for successor, action, stepCost in problem.getSuccessors(state):
+      if successor not in graphSearch:
+        fringe.push((successor, actions + [action], current_cost + stepCost), current_cost + stepCost)
+
+  #sutil.raiseNotDefined()
 
 def nullHeuristic(state, problem=None):
   """
@@ -156,7 +178,29 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
   "Search the node that has the lowest combined cost and heuristic first."
   "*** YOUR CODE HERE ***"
-  util.raiseNotDefined()
+
+  #(state, actions, current_cost), cost
+  fringe = util.PriorityQueue()
+  fringe.push((problem.getStartState(), [], 0), 0)
+
+  graphSearch = set()
+
+  while not fringe.isEmpty():
+    state, actions, current_cost = fringe.pop()
+
+    if state in graphSearch:
+      continue
+
+    graphSearch.add(state)
+
+    if problem.isGoalState(state):
+      return actions
+    
+    for successor, action, stepCost in problem.getSuccessors(state):
+      if successor not in graphSearch:
+        fringe.push((successor, actions + [action], current_cost + stepCost), current_cost + stepCost)
+
+  # util.raiseNotDefined()
     
   
 # Abbreviations

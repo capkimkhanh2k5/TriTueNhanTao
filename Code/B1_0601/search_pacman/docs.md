@@ -171,7 +171,7 @@ problem.getSuccessors(state) # Trả về [(successor, action, cost), ...]
 ```
 
 **Test:** 
-* `python pacman.py -l tinyMaze -p SearchAgent`
+* `python pacman.py -l tinyMaze -p SearchAgent -a fn=bfs`
 * `python pacman.py -l mediumMaze -p SearchAgent -a fn=bfs`
 * `python pacman.py -l bigMaze -p SearchAgent -a fn=dfs`
 
@@ -189,7 +189,7 @@ problem.getSuccessors(state) # Trả về [(successor, action, cost), ...]
 - [ ] Đảm bảo tìm được đường đi ngắn nhất (số bước ít nhất)
 
 **Test:** 
-* `python pacman.py -l tinyMaze -p SearchAgent`
+* `python pacman.py -l tinyMaze -p SearchAgent -a fn=bfs`
 * `python pacman.py -l mediumMaze -p SearchAgent -a fn=bfs`
 * `python pacman.py -l bigMaze -p SearchAgent -a fn=bfs`
 
@@ -209,7 +209,7 @@ problem.getSuccessors(state) # Trả về [(successor, action, cost), ...]
 **Lưu ý:** UCS khác BFS ở chỗ nó xét chi phí của mỗi bước, không chỉ số bước.
 
 **Test:** 
-* `python pacman.py -l tinyMaze -p SearchAgent`
+* `python pacman.py -l tinyMaze -p SearchAgent -a fn=ucs`
 * `python pacman.py -l mediumMaze -p SearchAgent -a fn=ucs`
 * `python pacman.py -l bigMaze -p SearchAgent -a fn=ucs`
 

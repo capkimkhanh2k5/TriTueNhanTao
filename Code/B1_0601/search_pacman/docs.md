@@ -170,7 +170,10 @@ problem.isGoalState(state)   # Kiểm tra state có phải goal không
 problem.getSuccessors(state) # Trả về [(successor, action, cost), ...]
 ```
 
-**Test:** `python pacman.py -l tinyMaze -p SearchAgent`
+**Test:** 
+* `python pacman.py -l tinyMaze -p SearchAgent`
+* `python pacman.py -l mediumMaze -p SearchAgent -a fn=bfs`
+* `python pacman.py -l bigMaze -p SearchAgent -a fn=dfs`
 
 ---
 
@@ -185,7 +188,10 @@ problem.getSuccessors(state) # Trả về [(successor, action, cost), ...]
 - [ ] Sử dụng `util.Queue` làm cấu trúc dữ liệu fringe
 - [ ] Đảm bảo tìm được đường đi ngắn nhất (số bước ít nhất)
 
-**Test:** `python pacman.py -l mediumMaze -p SearchAgent -a fn=bfs`
+**Test:** 
+* `python pacman.py -l tinyMaze -p SearchAgent`
+* `python pacman.py -l mediumMaze -p SearchAgent -a fn=bfs`
+* `python pacman.py -l bigMaze -p SearchAgent -a fn=bfs`
 
 ---
 
@@ -202,7 +208,10 @@ problem.getSuccessors(state) # Trả về [(successor, action, cost), ...]
 
 **Lưu ý:** UCS khác BFS ở chỗ nó xét chi phí của mỗi bước, không chỉ số bước.
 
-**Test:** `python pacman.py -l mediumMaze -p SearchAgent -a fn=ucs`
+**Test:** 
+* `python pacman.py -l tinyMaze -p SearchAgent`
+* `python pacman.py -l mediumMaze -p SearchAgent -a fn=ucs`
+* `python pacman.py -l bigMaze -p SearchAgent -a fn=ucs`
 
 ---
 
@@ -219,50 +228,7 @@ problem.getSuccessors(state) # Trả về [(successor, action, cost), ...]
   - `h(n)` = heuristic ước lượng chi phí từ node đến goal
 - [ ] Hỗ trợ nhận heuristic function làm tham số
 
-**Test:** `python pacman.py -l bigMaze -z .5 -p SearchAgent -a fn=astar,heuristic=manhattanHeuristic`
-
----
-
-## Template Code Gợi Ý
-
-```python
-def genericSearch(problem, fringe):
-    """
-    Template chung cho các thuật toán tìm kiếm.
-    fringe: Stack (DFS), Queue (BFS), hoặc PriorityQueue (UCS, A*)
-    """
-    visited = set()  # Tập các state đã thăm
-    
-    # Mỗi node trong fringe: (state, actions_to_reach_state)
-    start = problem.getStartState()
-    fringe.push((start, []))
-    
-    while not fringe.isEmpty():
-        state, actions = fringe.pop()
-        
-        if problem.isGoalState(state):
-            return actions
-        
-        if state not in visited:
-            visited.add(state)
-            
-            for successor, action, cost in problem.getSuccessors(state):
-                if successor not in visited:
-                    new_actions = actions + [action]
-                    fringe.push((successor, new_actions))
-    
-    return []  # Không tìm thấy đường đi
-```
-
----
-
-## Bảng Tổng Hợp
-
-| Thuật toán | Cấu trúc dữ liệu | Độ phức tạp | Tối ưu? | Đầy đủ? |
-|------------|------------------|-------------|---------|---------|
-| DFS | `Stack` | O(b^m) | ❌ | ❌ |
-| BFS | `Queue` | O(b^d) | ✅ (chi phí đều) | ✅ |
-| UCS | `PriorityQueue` | O(b^(C*/ε)) | ✅ | ✅ |
-| A* | `PriorityQueue` | Phụ thuộc h | ✅ (h admissible) | ✅ |
-
-> **Chú thích:** b = branching factor, d = depth of solution, m = max depth, C* = optimal cost, ε = min step cost
+**Test:**
+* `python pacman.py -l tinyMaze -p SearchAgent -a fn=astar,heuristic=manhattanHeuristic`
+* `python pacman.py -l mediumMaze -p SearchAgent -a fn=astar,heuristic=manhattanHeuristic`
+* `python pacman.py -l bigMaze -z .5 -p SearchAgent -a fn=astar,heuristic=manhattanHeuristic`

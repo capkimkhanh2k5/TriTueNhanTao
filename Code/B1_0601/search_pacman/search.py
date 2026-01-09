@@ -109,7 +109,7 @@ def depthFirstSearch(problem):
 
     #Trả về danh sách các trạng thái con (đường đi, Hướng, chi phí)
     for successor, action, _ in problem.getSuccessors(state):
-      if successor not in graphSearch: 
+      if successor not in graphSearch and successor not in fringe.list: 
         fringe.push((successor, actions + [action]))
 
   #util.raiseNotDefined()
@@ -120,7 +120,26 @@ def breadthFirstSearch(problem):
   [2nd Edition: p 73, 3rd Edition: p 82]
   """
   "*** YOUR CODE HERE ***"
-  util.raiseNotDefined()
+
+  # Đưa danh sách trạng thái + List hướng đi hợp lệ vào fringe
+  fringe = util.Queue()
+  fringe.push((problem.getStartState(), []))
+
+  graphSearch = set()
+
+  while not fringe.isEmpty():
+    state, actions = fringe.pop()
+
+    graphSearch.add(state)
+
+    if(problem.isGoalState(state)):
+      return actions
+
+    for successor, action, _ in problem.getSuccessors(state):
+      if successor not in graphSearch and successor not in fringe.list: 
+        fringe.push((successor, actions + [action]))
+    
+  #util.raiseNotDefined()
       
 def uniformCostSearch(problem):
   "Search the node of least total cost first. "

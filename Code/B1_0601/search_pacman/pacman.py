@@ -227,6 +227,7 @@ class GameState:
     """
     Allows two states to be compared.
     """
+    if other is None: return False
     return self.data == other.data
 
   def __hash__( self ):
@@ -641,7 +642,7 @@ def runGames( layout, pacman, ghosts, display, numGames, record, numTraining = 0
     if record:
       import time, pickle
       fname = ('recorded-game-%d' % (i + 1)) +  '-'.join([str(t) for t in time.localtime()[1:6]])
-      f = file(fname, 'w')
+      f = open(fname, 'wb')
       components = {'layout': layout, 'actions': game.moveHistory}
       pickle.dump(components, f)
       f.close()

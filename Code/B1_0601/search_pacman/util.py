@@ -185,8 +185,9 @@ class Counter(dict):
     ['second', 'third', 'first']
     """
     sortedItems = list(self.items())
+    from functools import cmp_to_key
     compare = lambda x, y:  sign(y[1] - x[1])
-    sortedItems.sort(cmp=compare)
+    sortedItems.sort(key=cmp_to_key(compare))
     return [x[0] for x in sortedItems]
   
   def totalCount(self):
@@ -451,7 +452,7 @@ def lookup(name, namespace):
     module = __import__(moduleName)
     return getattr(module, objName)
   else:
-    modules = [obj for obj in list(namespace.values()) if str(type(obj)) == "<type 'module'>"]
+    modules = [obj for obj in list(namespace.values()) if str(type(obj)) == "<class 'module'>"]
     options = [getattr(module, name) for module in modules if name in dir(module)]
     options += [obj[1] for obj in list(namespace.items()) if obj[0] == name ]
     if len(options) == 1: return options[0]

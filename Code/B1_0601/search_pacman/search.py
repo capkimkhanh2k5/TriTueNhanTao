@@ -84,7 +84,35 @@ def depthFirstSearch(problem):
   print "Start's successors:", problem.getSuccessors(problem.getStartState())
   """
   "*** YOUR CODE HERE ***"
-  util.raiseNotDefined()
+  #print("Start:", problem.getStartState())
+  #print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
+  #print("Start's successors:", problem.getSuccessors(problem.getStartState()))
+  # Succesoers (người kế nhiệm) là danh sách các trạng thái con
+
+  # Đưa danh sách trạng thái + List hướng đi hợp lệ vào fringe
+  fringe = util.Stack()
+  fringe.push((problem.getStartState(), []))
+
+  # Set để lưu trữ toạ độ đã đi qua 
+  graphSearch = set()
+
+  while not fringe.isEmpty():
+    state, actions = fringe.pop()
+
+    if state in graphSearch:
+      continue
+
+    graphSearch.add(state)
+
+    if problem.isGoalState(state):
+      return actions
+
+    #Trả về danh sách các trạng thái con (đường đi, Hướng, chi phí)
+    for successor, action, _ in problem.getSuccessors(state):
+      if successor not in graphSearch: 
+        fringe.push((successor, actions + [action]))
+
+  #util.raiseNotDefined()
 
 def breadthFirstSearch(problem):
   """

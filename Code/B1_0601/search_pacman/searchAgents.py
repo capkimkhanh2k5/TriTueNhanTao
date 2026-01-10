@@ -510,7 +510,7 @@ def foodHeuristic(state, problem):
   for food in foodList:
     distance = util.manhattanDistance(position, food)
     maxDistance = max(maxDistance, distance)
-    
+
   return maxDistance
   
 class ClosestDotSearchAgent(SearchAgent):
@@ -539,7 +539,10 @@ class ClosestDotSearchAgent(SearchAgent):
     problem = AnyFoodSearchProblem(gameState)
 
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+   
+    return search.bfs(problem)
+
+    #util.raiseNotDefined()
   
 class AnyFoodSearchProblem(PositionSearchProblem):
   """
@@ -575,7 +578,10 @@ class AnyFoodSearchProblem(PositionSearchProblem):
     x,y = state
     
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+
+    return self.food[x][y]
+    
+    #util.raiseNotDefined()
 
 ##################
 # Mini-contest 1 #

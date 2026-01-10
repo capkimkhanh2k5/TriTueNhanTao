@@ -178,10 +178,11 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
   "Search the node that has the lowest combined cost and heuristic first."
   "*** YOUR CODE HERE ***"
+  startState = problem.getStartState()
 
   #(state, actions, current_cost), cost
   fringe = util.PriorityQueue()
-  fringe.push((problem.getStartState(), [], 0), 0)
+  fringe.push((startState, [], 0), 0 + heuristic(startState, problem))
 
   graphSearch = set()
 
@@ -198,7 +199,10 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     
     for successor, action, stepCost in problem.getSuccessors(state):
       if successor not in graphSearch:
-        fringe.push((successor, actions + [action], current_cost + stepCost), current_cost + stepCost)
+        g_Cost = current_cost + stepCost
+        h_Cost = heuristic(successor, problem)
+        f_Cost = g_Cost + h_Cost #f(n) = g(n) + h(n)
+        fringe.push((successor, actions + [action], g_Cost), f_Cost)
 
   # util.raiseNotDefined()
     

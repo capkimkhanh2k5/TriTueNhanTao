@@ -268,7 +268,7 @@ class CornersProblem(search.SearchProblem):
     Stores the walls, pacman's starting position and corners.
     """
     self.walls = startingGameState.getWalls()
-    self.startingPosition = startingGameState.getPacmanPosition()
+    self.startingPosition = startingGameState.getPacmanPosition() #Vị trí bắt đầu
     top, right = self.walls.height-2, self.walls.width-2 
     self.corners = ((1,1), (1,top), (right, 1), (right, top))
     for corner in self.corners:
@@ -276,17 +276,24 @@ class CornersProblem(search.SearchProblem):
         print('Warning: no food in corner ' + str(corner))
     self._expanded = 0 # Number of search nodes expanded
     
-    "*** YOUR CODE HERE ***"
+    "*** YOUR CODE HERE ***" # Code below this comment :))
     
   def getStartState(self):
     "Returns the start state (in your state space, not the full Pacman state space)"
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    
+    #toạ độ diện tại + góc đã thăm(4 giá trị T/F)
+    return (self.startingPosition, (False, False, False, False))
+    
+    #util.raiseNotDefined()
     
   def isGoalState(self, state):
     "Returns whether this search state is a goal state of the problem"
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+
+    return all(state[1]) #Check toafn bộ State là True
+    
+    #util.raiseNotDefined()
        
   def getSuccessors(self, state):
     """
@@ -310,6 +317,26 @@ class CornersProblem(search.SearchProblem):
       #   hitsWall = self.walls[nextx][nexty]
       
       "*** YOUR CODE HERE ***"
+
+      currentPosition, vistedCorners = state
+      x, y = currentPosition
+      dx, dy = Actions.directionToVector(action)
+      nextx, nexty = int(x + dx), int(y + dy)
+      hitsWall = self.walls[nextx][nexty]
+
+      if hitsWall:
+        continue
+
+      newVisitedCorners = list(vistedCorners)
+
+      #Check Next Position is Corner in self.corners
+      for i in range(len(self.corners)):
+        if self.corners[i] == (nextx, nexty):
+          newVisitedCorners[i] = True
+      
+      newVisitedTuple = tuple(newVisitedCorners)
+
+      successors.append((((nextx, nexty), newVisitedTuple), action, 1))
       
     self._expanded += 1
     return successors

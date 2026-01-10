@@ -232,3 +232,66 @@ problem.getSuccessors(state) # Trả về [(successor, action, cost), ...]
 * `python pacman.py -l tinyMaze -p SearchAgent -a fn=astar,heuristic=manhattanHeuristic`
 * `python pacman.py -l mediumMaze -p SearchAgent -a fn=astar,heuristic=manhattanHeuristic`
 * `python pacman.py -l bigMaze -z .5 -p SearchAgent -a fn=astar,heuristic=manhattanHeuristic`
+
+ ---
+ 
+ # Các Bài Tập Cần Thực Hiện trong `searchAgents.py`
+ 
+ File `searchAgents.py` yêu cầu bạn triển khai các lớp và hàm hỗ trợ để giải quyết các bài toán tìm kiếm phức tạp hơn như thu thập tất cả các góc hoặc tất cả thức ăn.
+ 
+ ---
+ 
+ ## Bài 5: Corners Problem (Bài toán 4 góc)
+ 
+ **Lớp:** `CornersProblem`
+ 
+ **Mô tả:** Định nghĩa không gian trạng thái sao cho Pacman có thể tìm đường đi qua cả 4 góc của mê cung.
+ 
+ **Yêu cầu:**
+ - [ ] Chọn cấu trúc trạng thái (`state`) phù hợp (vị trí Pacman + danh sách các góc đã thăm).
+ - [ ] Triển khai `getStartState()`, `isGoalState(state)`, và `getSuccessors(state)`.
+ - [ ] Đảm bảo `getSuccessors` cập nhật trạng thái các góc đã thăm chính xác khi Pacman đi qua các góc.
+ 
+ **Test:** `python pacman.py -l tinyCorners -p SearchAgent -a fn=bfs,prob=CornersProblem`
+ 
+ ---
+ 
+ ## Bài 6: Corners Heuristic
+ 
+ **Hàm:** `cornersHeuristic(state, problem)`
+ 
+ **Mô tả:** Triển khai một hàm heuristic **admissible** (không bao giờ ước lượng quá chi phí thực tế) và **consistent** cho bài toán 4 góc.
+ 
+ **Yêu cầu:**
+ - [ ] Trả về một giá trị số ước lượng chi phí từ trạng thái hiện tại đến khi đi hết 4 góc.
+ - [ ] Heuristic càng chặt chẽ (gần chi phí thực tế) thì thuật toán A* chạy càng nhanh (mở rộng ít node hơn).
+ 
+ **Test:** `python pacman.py -l mediumCorners -p AStarCornersAgent -z 0.5`
+ 
+ ---
+ 
+ ## Bài 7: Eating All Dots (Ăn hết thức ăn)
+ 
+ **Hàm:** `foodHeuristic(state, problem)`
+ 
+ **Mô tả:** Triển khai hàm heuristic cho bài toán `FoodSearchProblem` (thu thập toàn bộ thức ăn trên bản đồ).
+ 
+ **Yêu cầu:**
+ - [ ] Heuristic phải **admissible** và **consistent**.
+ - [ ] Tận dụng thông tin từ `foodGrid` để ước lượng khoảng cách đến các viên thức ăn còn lại.
+ 
+ **Test:** `python pacman.py -l testSearch -p AStarFoodSearchAgent`
+ 
+ ---
+ 
+ ## Bài 8: Closest Dot Search (Tìm hạt đậu gần nhất)
+ 
+ **Hàm:** `findPathToClosestDot(self, gameState)` và lớp `AnyFoodSearchProblem`
+ 
+ **Mô tả:** Điều chỉnh tác nhân để thay vì tìm đường gom hết thức ăn (rất chậm), nó sẽ luôn đi tìm viên thức ăn gần nó nhất.
+ 
+ **Yêu cầu:**
+ - [ ] Triển khai `isGoalState` trong `AnyFoodSearchProblem` (trả về `True` nếu vị trí của Pacman có thức ăn).
+ - [ ] Triển khai `findPathToClosestDot` bằng cách sử dụng một thuật toán tìm kiếm (thường là BFS) để tìm đường đến viên thức ăn gần nhất.
+ 
+ **Test:** `python pacman.py -l bigSearch -p ClosestDotSearchAgent -z .5`

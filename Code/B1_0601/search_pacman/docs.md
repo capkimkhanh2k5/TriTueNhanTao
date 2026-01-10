@@ -175,6 +175,35 @@ problem.getSuccessors(state) # Trả về [(successor, action, cost), ...]
 * `python pacman.py -l mediumMaze -p SearchAgent -a fn=bfs`
 * `python pacman.py -l bigMaze -p SearchAgent -a fn=dfs`
 
+
+**Triển Khai:**
+
+```python
+
+def depthFirstSearch(problem):
+  # Đưa danh sách trạng thái + List hướng đi hợp lệ vào fringe
+  fringe = util.Stack()
+  fringe.push((problem.getStartState(), []))
+
+  # Set để lưu trữ toạ độ đã đi qua 
+  graphSearch = set()
+
+  while not fringe.isEmpty():
+    state, actions = fringe.pop()
+
+    if state in graphSearch:
+      continue
+
+    graphSearch.add(state)
+
+    if problem.isGoalState(state):
+      return actions
+
+    #Trả về danh sách các trạng thái con (đường đi, Hướng, chi phí)
+    for successor, action, _ in problem.getSuccessors(state):
+      if successor not in graphSearch and successor not in fringe.list: 
+        fringe.push((successor, actions + [action]))
+``` 
 ---
 
 ## Bài 2: Breadth First Search (BFS)
@@ -193,6 +222,33 @@ problem.getSuccessors(state) # Trả về [(successor, action, cost), ...]
 * `python pacman.py -l mediumMaze -p SearchAgent -a fn=bfs`
 * `python pacman.py -l bigMaze -p SearchAgent -a fn=bfs`
 
+**Triển Khai:**
+
+```python
+
+def breadthFirstSearch(problem):
+  # Đưa danh sách trạng thái + List hướng đi hợp lệ vào fringe
+  fringe = util.Queue()
+  fringe.push((problem.getStartState(), []))
+
+  graphSearch = set()
+
+  while not fringe.isEmpty():
+    state, actions = fringe.pop()
+
+    if state in graphSearch:
+      continue
+
+    graphSearch.add(state)
+
+    if(problem.isGoalState(state)):
+      return actions
+
+    for successor, action, _ in problem.getSuccessors(state):
+      if successor not in graphSearch and successor not in fringe.list: 
+        fringe.push((successor, actions + [action]))
+```
+    
 ---
 
 ## Bài 3: Uniform Cost Search (UCS)
@@ -213,6 +269,34 @@ problem.getSuccessors(state) # Trả về [(successor, action, cost), ...]
 * `python pacman.py -l mediumMaze -p SearchAgent -a fn=ucs`
 * `python pacman.py -l bigMaze -p SearchAgent -a fn=ucs`
 
+**Triển Khai:**
+
+```python
+
+def uniformCostSearch(problem):
+  #(state, actions, current_cost), cost
+  fringe = util.PriorityQueue()
+  fringe.push((problem.getStartState(), [], 0), 0)
+
+  graphSearch = set()
+
+  while not fringe.isEmpty():
+    state, actions, current_cost = fringe.pop()
+
+    if state in graphSearch:
+      continue
+
+    graphSearch.add(state)
+
+    if problem.isGoalState(state):
+      return actions
+    
+    for successor, action, stepCost in problem.getSuccessors(state):
+      if successor not in graphSearch:
+        fringe.push((successor, actions + [action], current_cost + stepCost), current_cost + stepCost)
+
+```
+
 ---
 
 ## Bài 4: A* Search
@@ -232,6 +316,39 @@ problem.getSuccessors(state) # Trả về [(successor, action, cost), ...]
 * `python pacman.py -l tinyMaze -p SearchAgent -a fn=astar,heuristic=manhattanHeuristic`
 * `python pacman.py -l mediumMaze -p SearchAgent -a fn=astar,heuristic=manhattanHeuristic`
 * `python pacman.py -l bigMaze -z .5 -p SearchAgent -a fn=astar,heuristic=manhattanHeuristic`
+
+**Triển Khai:**
+
+```python
+
+def aStarSearch(problem, heuristic=nullHeuristic):
+  startState = problem.getStartState()
+
+  #(state, actions, current_cost), cost
+  fringe = util.PriorityQueue()
+  fringe.push((startState, [], 0), 0 + heuristic(startState, problem))
+
+  graphSearch = set()
+
+  while not fringe.isEmpty():
+    state, actions, current_cost = fringe.pop()
+
+    if state in graphSearch:
+      continue
+
+    graphSearch.add(state)
+
+    if problem.isGoalState(state):
+      return actions
+    
+    for successor, action, stepCost in problem.getSuccessors(state):
+      if successor not in graphSearch:
+        g_Cost = current_cost + stepCost
+        h_Cost = heuristic(successor, problem)
+        f_Cost = g_Cost + h_Cost #f(n) = g(n) + h(n)
+        fringe.push((successor, actions + [action], g_Cost), f_Cost)
+        
+```
 
  ---
  

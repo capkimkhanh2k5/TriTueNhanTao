@@ -492,7 +492,26 @@ def foodHeuristic(state, problem):
   """
   position, foodGrid = state
   "*** YOUR CODE HERE ***"
-  return 0
+
+  """
+    Tạo List toạ độ thức ăn
+    => Để chiến thắng thì phải đi đến vị trí hạt đậu xa nhất
+    => Tính khoảng cách từ vị trí Pacman đến vị trí hạt đậu xa nhất
+  """
+
+  # Vị trí + bản đồ thức ăn
+  position, foodGrid = state
+
+  #Chuyển thành toạ độ thức ăn
+  foodList = foodGrid.asList()
+
+  maxDistance = 0
+
+  for food in foodList:
+    distance = util.manhattanDistance(position, food)
+    maxDistance = max(maxDistance, distance)
+    
+  return maxDistance
   
 class ClosestDotSearchAgent(SearchAgent):
   "Search for all food using a sequence of searches"

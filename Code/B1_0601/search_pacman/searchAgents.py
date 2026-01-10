@@ -35,6 +35,7 @@ import util
 import time
 import search
 import searchAgents
+import itertools
 
 class GoWestAgent(Agent):
   "An agent that goes West until it can't."
@@ -372,7 +373,35 @@ def cornersHeuristic(state, problem):
   walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
   
   "*** YOUR CODE HERE ***"
-  return 0 # Default to trivial solution
+
+  """
+  Tính chính xác tổng quãng đường Manhattan ngắn nhất đi qua tất cả các góc còn lại
+  """
+
+  corners = problem.corners
+  currentPosition, vistedCorners = state
+
+  #Lấy ra các góc chưa thăms
+  unVisitedCorners = [corners[i] for i in range(len(vistedCorners)) if not vistedCorners[i]]
+
+  if not unVisitedCorners:
+    return 0
+
+  #Tính khoảng cách Manhattan từ vị trí hiện tại đến góc chưa thăm gần nhất
+  minTotalDistance = float('inf')
+
+  # Thử mọi thứ tự đi qua các góc còn lại
+  for p in itertools.permutations(unVisitedCorners):
+    currentDistance = 0
+    tempPosition = currentPosition
+    for corners in p:
+      currentDistance += util.manhattanDistance(tempPosition, corners)
+      tempPosition = corners # Cập nhật vị trí giả định đi qua 
+      
+    # Cập nhật minTotalDistance
+    minTotalDistance = min(minTotalDistance, currentDistance)
+      
+  return minTotalDistance
 
 class AStarCornersAgent(SearchAgent):
   "A SearchAgent for FoodSearchProblem using A* and your foodHeuristic"
